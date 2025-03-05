@@ -1,38 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+void main() {
+  runApp(SmartBiteApp());
+}
+
+class SmartBiteApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
+    );
+  }
+}
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-  // Google Sign-In Function
-  Future<void> _signInWithGoogle() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    try {
-      final GoogleSignInAccount? account = await googleSignIn.signIn();
-      if (account != null) {
-        print('Google Sign-In successful: ${account.email}');
-      }
-    } catch (error) {
-      print('Google Sign-In failed: $error');
-    }
-  }
-
-  // Facebook Sign-In Function
-  Future<void> _signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        final userData = await FacebookAuth.instance.getUserData();
-        print('Facebook Sign-In successful: ${userData['email']}');
-      } else {
-        print('Facebook Sign-In failed: ${result.status}');
-      }
-    } catch (error) {
-      print('Facebook Sign-In error: $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +25,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // App Title
             Text(
               'SMARTBITE',
               style: TextStyle(
@@ -52,12 +35,15 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
+            // Subtitle
             Text(
               'Your Personalized Food Tracker & Nutrition Guide',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             SizedBox(height: 40),
+
+            // Email Field
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -66,6 +52,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
+
+            // Password Field
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -75,6 +63,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+
+            // Forgot Password
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
@@ -86,6 +76,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+
+            // Sign In Button
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -97,38 +89,6 @@ class LoginScreen extends StatelessWidget {
                 'Sign In',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(child: Divider(thickness: 1, color: Colors.grey)),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text('OR'),
-                ),
-                Expanded(child: Divider(thickness: 1, color: Colors.grey)),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: _signInWithGoogle,
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundImage: AssetImage('assets/google.png'),
-                  ),
-                ),
-                SizedBox(width: 20),
-                GestureDetector(
-                  onTap: _signInWithFacebook,
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundImage: AssetImage('assets/facebook.png'),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
