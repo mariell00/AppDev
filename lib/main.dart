@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Import the login page
+import 'login_page.dart'; 
 
 void main() {
   runApp(SmartBiteApp());
@@ -12,7 +12,6 @@ class SmartBiteApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(), // Now using the separate LoginScreen widget
-    );
+      home: LoginScreen(), 
   }
 }
