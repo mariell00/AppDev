@@ -24,115 +24,112 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required';
-    }
-    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Enter a valid email';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
-  }
-
-  void _submit() {
+  void _login() {
     if (_formKey.currentState!.validate()) {
-      print('Email: ${_emailController.text}, Password: ${_passwordController.text}');
+      print('Login Successful');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double fieldWidth = screenWidth > 600 ? 400 : screenWidth * 0.85;
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'SMARTBITE',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Montserrat',
-                  letterSpacing: 1.5,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 40),
+        child: Center(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // App Title
+                Text(
+                  'SMARTBITE',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
+                    fontFamily: 'Montserrat',
+                  ),
                 ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Your Personalized Food Tracker & Nutrition Guide',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.black54),
-              ),
-              SizedBox(height: 40),
-              
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: fieldWidth,
-                      child: TextFormField(
-                        controller: _emailController,
-                        validator: _validateEmail,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(),
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    
-                    SizedBox(
-                      width: fieldWidth,
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        validator: _validatePassword,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: OutlineInputBorder(),
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
+                SizedBox(height: 10),
+                Text(
+                  'Your Personalized Food Tracker & Nutrition Guide',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
-              ),
-              
-              SizedBox(
-                width: fieldWidth,
-                child: ElevatedButton(
-                  onPressed: _submit,
+                SizedBox(height: 30),
+
+                // Email Field
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\$').hasMatch(value)) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15),
+
+                // Password Field
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+
+                // Forgot Password
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      print('Forgot Password Clicked');
+                    },
+                    child: Text(
+                      'Forgot Your Password?',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                // Sign In Button
+                ElevatedButton(
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     padding: EdgeInsets.symmetric(vertical: 12),
+                    minimumSize: Size(double.infinity, 50),
                   ),
                   child: Text(
                     'Sign In',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
